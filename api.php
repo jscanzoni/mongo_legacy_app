@@ -25,7 +25,7 @@ foreach ($fields["visible"] as $section => $items) {
 
 if (isset($_GET['key'])) {
     if ($_GET['key'] == $apiKey) {
-        switch ($_GET['action']) {
+        switch (clean_data($_GET['action'])) {
             case "create": // api.php?app_id=test&key=1234&action=create
                 if (count((array)$body) > 0) {
                     $newArray["id"] = $newId;

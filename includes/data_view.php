@@ -1,5 +1,5 @@
 <?php
-$newId = $_GET['i'];
+$newId = clean_data($_GET['i']);
 
 
 $data_list = (array)($data_collection->findOne($app_query)->data);

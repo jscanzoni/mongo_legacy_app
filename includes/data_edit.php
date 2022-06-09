@@ -1,10 +1,10 @@
 <?php
 
-$dataNo = (isset($_GET['i']) ? $_GET['i'] : null);
+$dataNo = (isset($_GET['i']) ? clean_data($_GET['i']) : null);
 
 $data_list = (array)($data_collection->findOne($app_query)->data);
 
-$newId = (isset($_GET['i']) ? $_GET['i'] : $_POST['id']);
+$newId = (isset($_GET['i']) ? clean_data($_GET['i']) : clean_data($_POST['id']));
 
 $data = [];
 $key = count($data_list);
@@ -17,7 +17,7 @@ foreach ($data_list as $k => $d) {
 }
 //var_dump($data);
 
-$numLines = isset($_POST["numLines"]) ? intval($_POST["numLines"]) : 0;
+$numLines = isset($_POST["numLines"]) ? intval(clean_data($_POST["numLines"])) : 0;
 
 //add a new line
 if (isset($_POST['new-lineitem'])) {
@@ -35,11 +35,11 @@ foreach ($fields as $field) {
             if(!isset($data["lineitems"][$i][$field->field]))
                 $data["lineitems"][$i][$field->field]="";
 
-            $data["lineitems"][$i][$field->field] = isset($_POST["lineitem-" . $field->field . $i]) ? $_POST["lineitem-" . $field->field . $i] : $data["lineitems"][$i][$field->field];
+            $data["lineitems"][$i][$field->field] = isset($_POST["lineitem-" . $field->field . $i]) ? clean_data($_POST["lineitem-" . $field->field . $i]) : $data["lineitems"][$i][$field->field];
         }
     } else {
 
-        $data[$field->field] = isset($_POST[$field->field]) ? $_POST[$field->field] : $data[$field->field];
+        $data[$field->field] = isset($_POST[$field->field]) ? clean_data($_POST[$field->field]) : $data[$field->field];
     }
 }
 
@@ -52,15 +52,15 @@ if (isset($_POST["submit"])) {
 
     foreach ($fields as $field) {
         if ($field->field == "id")
-            $_POST[$field->field] = intval($_POST[$field->field]);
+            $_POST[$field->field] = intval(clean_data($_POST[$field->field]));
 
         if (isset($field->group) and $field->group == "Line Items") {
             for ($i = 0; $i < $numLines; $i++) {
-                $data["lineitems"][$i][$field->field] = isset($_POST["lineitem-" . $field->field . $i]) ? $_POST["lineitem-" . $field->field . $i] : "";
+                $data["lineitems"][$i][$field->field] = isset($_POST["lineitem-" . $field->field . $i]) ? clean_data($_POST["lineitem-" . $field->field . $i]) : "";
             }
         } else {
 
-            $data[$field->field] = isset($_POST[$field->field]) ? $_POST[$field->field] : "";
+            $data[$field->field] = isset($_POST[$field->field]) ? clean_data($_POST[$field->field]) : "";
         }
     }
 

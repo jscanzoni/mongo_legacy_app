@@ -6,7 +6,7 @@ require 'vendor/autoload.php';
 
 //app id set?
 if(isset($_GET['app_id'])){
-    $_SESSION['app_id']= $_GET['app_id'];
+    $_SESSION['app_id']= clean_data($_GET['app_id']);
 }else{
     if(!isset($_SESSION['app_id']))
         die("No app id was set");
@@ -69,6 +69,15 @@ $webhook_tetherField = $config["app_settings"]["webhook"]["enabledWhenBlankTethe
 $webhook_actionDescription = $config["app_settings"]["webhook"]["actionDescription"];
 $webhook_processPageDescription = $config["app_settings"]["webhook"]["processPageDescription"];
 
+
+
+function clean_data($data) {
+    $data = strip_tags($data);
+    $data = htmlspecialchars($data);
+    $data = stripslashes($data);
+    $data = trim($data);
+    return $data;
+}
 
 function displayName($field) {
     global $fields;

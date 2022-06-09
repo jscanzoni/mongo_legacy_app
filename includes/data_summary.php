@@ -5,7 +5,7 @@ unset($_POST);
 if (!isset($_GET["s"]))
     $start = 1;
 else
-    $start = intval($_GET["s"]);
+    $start = intval(clean_data($_GET["s"]));
 
 $end = $start + 9;
 $total = count($data_list);
